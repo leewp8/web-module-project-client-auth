@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 
 const Login = () => {
+    const { push} = useHistory()
+
     const [cred, setCred ] = useState({
         username:'',
         password:''
@@ -19,7 +22,8 @@ const Login = () => {
         e.preventDefault();
         axios.post('http://localhost:9000/api/login', cred)
         .then(res => {
-            console.log(res);
+            localStorage.setItem("token", res.data.token)
+            push('/friends')
         })
         .catch(err => {
             console.log(err)
